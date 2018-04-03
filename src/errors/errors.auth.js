@@ -21,5 +21,3 @@ module.exports = {
         res.status(400).json({errors: { global: "Error saving new user." } })
     }
 }
-
-//
