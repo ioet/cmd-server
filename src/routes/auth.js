@@ -1,15 +1,15 @@
-import express from "express"
-import bcrypt from "bcrypt"
-import * as errors from "../errors/errors.auth"
+import express from 'express'
+import User from '../models/User'
+import * as errors from '../errors/errors.auth'
 
 const router = express.Router()
-var models = require('express-cassandra')
 
 router.post('/login', (req, res) => {
 
     const { email, password } = req.body.credentials
 
-    models.instance.Users.findOne({ email: email }, (err, user) => {
+    User.get({ email: email }, (err, user) => {
+
         if(err) {
             errors.errorDataBaseConnection(res)
             return
@@ -20,13 +20,18 @@ router.post('/login', (req, res) => {
         }
         if(user.comparePassword(password, user.password)){
             res.json({ user: user.authJSON(user) });
-        }else{
-            errors.errorIncorrectPassword(res)
+            return
         }
-    });
+
+        errors.errorIncorrectPassword(res)
+
+    })
+
 })
 
-router.post('/register', (req, res) => {
+export default router;
+
+/*router.post('/register', (req, res) => {
 
     const { email, password } = req.body.credentials
 
@@ -64,6 +69,4 @@ router.post('/register', (req, res) => {
         });
 
     })
-})
-
-export default router;
+})*/

@@ -1,20 +1,18 @@
 import express from 'express'
 import path from "path";
 import bodyParser from "body-parser";
+import passport from 'passport';
+import dotenv from "dotenv"
 
 import auth from "./routes/auth";
 import restaurant_public from "./routes/restaurant_public";
 import restaurant_private from "./routes/restaurant_private";
 
-import passport from 'passport';
-
-import dotenv from "dotenv"
-
 dotenv.config()
-require("./config/passport")
-require("./config/database")
-const app = express();
 
+require("./config/passport")
+
+const app = express();
 const authbyrole = (role) => passport.authenticate(role, { session: false })
 
 // parser

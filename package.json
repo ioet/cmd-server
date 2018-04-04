@@ -15,6 +15,7 @@
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
+    "dynamoose": "^0.8.7",
     "express-cassandra": "^2.2.0",
     "jsonwebtoken": "^8.2.0",
     "nodemon": "^1.17.1",
