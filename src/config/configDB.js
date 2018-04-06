@@ -7,7 +7,7 @@ dotenv.config()
 dynamoose.AWS.config.update({
   accessKeyId: process.env.AK,
   secretAccessKey: process.env.SK,
-  region: 'us-east-1'
+  region: process.env.REGION
 })
 
 module.exports = dynamoose

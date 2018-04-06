@@ -7,13 +7,12 @@ const router = express.Router()
 router.get('/list', (req, res) => {
 
   Restaurant.scan().exec((err, restaurant_list) => {
-    //restaurant_list is an array of plain objects satisfying the query conditions above
     if(err) {
-        errors.errorDataBaseConnection(res)
+        errors.errorDataBaseConnection(err, res)
         return
     }
     if(!restaurant_list){
-        errors.errorIncorrectRestaurant(res)
+        errors.errorNotFoundRestaurants(res)
         return
     }
     res.json({ restaurant_list });    //If everything is ok then returns the restaurant_list

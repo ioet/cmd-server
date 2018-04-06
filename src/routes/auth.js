@@ -1,6 +1,8 @@
 import express from 'express'
 import User from '../models/User'
+import bcrypt from "bcrypt"
 import * as errors from '../errors/errors.auth'
+
 
 const router = express.Router()
 
@@ -11,7 +13,7 @@ router.post('/login', (req, res) => {
     User.get({ email: email }, (err, user) => {
 
         if(err) {
-            errors.errorDataBaseConnection(res)
+            errors.errorDataBaseConnection(err, res)
             return
         }
         if(!user){
@@ -19,6 +21,7 @@ router.post('/login', (req, res) => {
             return
         }
         if(user.comparePassword(password, user.password)){
+            console.log("Success: User loggued in")
             res.json({ user: user.authJSON(user) });
             return
         }
@@ -29,16 +32,14 @@ router.post('/login', (req, res) => {
 
 })
 
-export default router;
-
-/*router.post('/register', (req, res) => {
+router.post('/register', (req, res) => {
 
     const { email, password } = req.body.credentials
+    const role = 'registered_user'
 
-    models.instance.Users.findOne({ email: email }, (err, user) => {
+    User.get({ email: email }, (err, user) => {
         if(err) {
-            console.log(err)
-            errors.errorDataBaseConnection(res)
+            errors.errorDataBaseConnection(err, res)
             return
         }
         if(user){
@@ -48,25 +49,20 @@ export default router;
         // Hash the password
         bcrypt.hash(password, 10, (err, encryptedPassword) => {
             if(err) {
-                errors.errorEncriptingPassword(res)
+                errors.errorEncriptingPassword(err, res)
                 return
             }
             // Add to database
             // Create a model instance
-            var newUser = new models.instance.Users({
+            var newUser = new User({
                 email: email,
                 password: encryptedPassword,
-                role: 'registered_user'
-            });
+                role: role
+            })
             // Save new user
-            newUser.save(function(err){
-                if(err) {
-                    errors.errorSavingUser(res)
-                    return;
-                }
-                res.json({ user: "Registered user" });
-            });
-        });
-
+            newUser.save()
+        })
     })
-})*/
+})
+
+export default router;
