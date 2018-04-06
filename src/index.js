@@ -17,4 +17,4 @@ app.use(bodyParser.json());
 app.use("/api/auth", auth);
 app.use("/api/public/restaurant", restaurant_public)
 
-app.listen(process.env.APP_PORT, () => console.log("Running on localhost: " + process.env.APP_PORT))
+app.listen(process.env.APP_PORT, () => console.log("\n- Running server. \n- Version app: " + process.env.VERSION))
