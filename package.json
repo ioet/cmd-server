@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node -- ./src/index"
+    "dev": "nodemon --exec NODE_ENV=dev babel-node -- ./src/index",
+    "local": "nodemon --exec NODE_ENV=local babel-node -- ./src/index"
   },
   "author": "",
   "license": "ISC",
